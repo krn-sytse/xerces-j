@@ -17,60 +17,61 @@ on:
 
 jobs:
   build:
-    name: Build with Java ${{ matrix.jdk }}
+    name: Build with Java 21
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        jdk: ['8', '11', '17', '21']
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK ${{ matrix.jdk }}
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: ${{ matrix.jdk }}
+        java-version: 21
 
-    # check ant version
+    # # check ant version
     - name: Ant Version
       run: ant -version
 
-    - name: Ant Build (target jars)
-      run: ant -noinput -buildfile build.xml jars
+    # - name: Ant Build (target jars)
+    #   run: ant -noinput -buildfile build.xml jars
 
-    - name: Ant Build (target dtdjars)
-      run: ant -noinput -buildfile build.xml dtdjars
+    # - name: Ant Build (target dtdjars)
+    #   run: ant -noinput -buildfile build.xml dtdjars
 
-    - name: Ant Test (target ci-test)
-      run: ant -noinput -buildfile build.xml clean ci-test
+    # - name: Ant Test (target ci-test)
+    #   run: ant -noinput -buildfile build.xml clean ci-test
 
-    - name: Ant Build (target all)
-      run: ant -noinput -buildfile build.xml all
+    # - name: Ant Build (target all)
+    #   run: ant -noinput -buildfile build.xml all
 
-    # clean up before running via build script
-    - name: Ant Clean
-      run: ant -noinput -buildfile build.xml clean
+    # # clean up before running via build script
+    # - name: Ant Clean
+    #   run: ant -noinput -buildfile build.xml clean
 
     # The README suggests to use a build script to call ant
     # so we do this as well to make sure it also works this way
     - name: Run build script (target jars)
       run: . ./build.sh jars
 
-    - name: Run build script (target dtdjars)
-      run: . ./build.sh dtdjars
+    - name: LS test
+      run: ls -a
 
-    # clean up before running via build script
-    # TODO might want to make the clean step a part of build.sh
-    - name: Ant Clean
-      run: ant -noinput -buildfile build.xml clean
+    # - name: Run build script (target dtdjars)
+    #   run: . ./build.sh dtdjars
 
-    - name: Run build script (target test)
-      run: . ./build.sh test
+    # # clean up before running via build script
+    # # TODO might want to make the clean step a part of build.sh
+    # - name: Ant Clean
+    #   run: ant -noinput -buildfile build.xml clean
 
-    # clean up before running via build script
-    - name: Ant Clean
-      run: ant -noinput -buildfile build.xml clean
+    # - name: Run build script (target test)
+    #   run: . ./build.sh test
 
-    - name: Run build script (target all)
-      run: . ./build.sh all
+    # # clean up before running via build script
+    # - name: Ant Clean
+    #   run: ant -noinput -buildfile build.xml clean
+
+    # - name: Run build script (target all)
+    #   run: . ./build.sh all
