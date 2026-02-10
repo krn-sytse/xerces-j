@@ -1614,8 +1614,8 @@ Authors:
   <target name="jar-cli" depends="compile">
     <mkdir dir="${build.dir}/cli"/>
     <copy todir="${build.dir}/cli">
-      <fileset dir="${build.classes.dir}"/>
+      <fileset dir="${build.dir}/classes"/>
     </copy>
-    <jar destfile="${build.dir}/xerces-cli.jar" basedir="${build.classes.dir}" manifest="cli-manifest.mf"/>
+    <jar destfile="${build.dir}/xerces-cli.jar" basedir="${build.dir}/classes" manifest="cli-manifest.mf"/>
   </target>
 </project>
