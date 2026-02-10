@@ -87,3 +87,14 @@ jobs:
     - name: Run build script (target all)
       if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh all
+
+    # Build XSD CLI jar
+    - name: Build CLI jar
+      run: ant jar-cli
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: xerces-cli
+        path: build/xerces-cli.jar
+

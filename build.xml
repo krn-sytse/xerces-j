@@ -1607,4 +1607,15 @@ Authors:
       <metainf dir="." includes="LICENSE,NOTICE"/>
     </jar>
   </target>
+  
+  <!-- =================================================================== -->
+  <!-- Builds XSD validation CLI jar                                       -->
+  <!-- =================================================================== -->
+  <target name="jar-cli" depends="compile">
+    <mkdir dir="${build.dir}/cli"/>
+    <copy todir="${build.dir}/cli">
+      <fileset dir="${build.classes.dir}"/>
+    </copy>
+    <jar destfile="${build.dir}/xerces-cli.jar" basedir="${build.classes.dir}" manifest="cli-manifest.mf"/>
+  </target>
 </project>
