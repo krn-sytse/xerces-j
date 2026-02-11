@@ -129,8 +129,7 @@ jobs:
           body: |
             Prebuilt Xerces XML Schema validator CLI.
 
-            Usage:
-            java -jar xerces-cli.jar schema.xsd xml_or_directory
+            Usage: `java -jar xerces-cli.jar <schema.xsd> <file.xml|directory>`
           files: release/xerces-cli.jar
 
 
