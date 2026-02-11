@@ -90,7 +90,7 @@ jobs:
 
     # Build XSD CLI jar
     - name: Build CLI jar
-      run: ant -noinput -buildfile build.xml -Djavac.source=${{ env.JAVAC_OVERRIDE }} -Djavac.target=${{ env.JAVAC_OVERRIDE }} cli-jar
+      run: ant jar-cli
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4

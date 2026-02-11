@@ -1611,13 +1611,11 @@ Authors:
   <!-- =================================================================== -->
   <!-- Builds XSD validation CLI jar                                       -->
   <!-- =================================================================== -->
-  <target name="cli-jar" depends="compile">
-    <jar destfile="${build.dir}/xerces-cli.jar" duplicate="preserve">
+  <target name="jar-cli" depends="compile">
+    <mkdir dir="${build.dir}/cli"/>
+    <copy todir="${build.dir}/cli">
       <fileset dir="${build.dir}/classes"/>
-      <manifest>
-        <attribute name="Main-Class"
-                   value="org.apache.xerces.parsers.XMLGrammarPreparser"/>
-      </manifest>
-    </jar>
+    </copy>
+    <jar destfile="${build.dir}/xerces-cli.jar" basedir="${build.dir}/classes" manifest="cli-manifest.mf"/>
   </target>
 </project>
