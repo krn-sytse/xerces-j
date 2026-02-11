@@ -87,3 +87,50 @@ jobs:
     - name: Run build script (target all)
       if: ${{ matrix.jdk <= 17 }}
       run: . ./build.sh all
+
+    # Build XSD CLI jar an upload as artifact(only for JDK 17)
+    - name: Build CLI jar
+      if: ${{ matrix.jdk == 17 }}
+      run: ant jar-cli
+    
+    - name: Upload artifact
+      if: ${{ matrix.jdk == 17 }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: xerces-cli
+        path: build/xerces-cli.jar
+
+  release:
+    name: Publish CLI Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download CLI artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: xerces-cli
+          path: release
+
+      - name: Create Release Tag
+        id: tag
+        run: |
+          TAG="cli-$(date +'%Y.%m.%d-%H%M')"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: Xerces XML Validator ${{ steps.tag.outputs.tag }}
+          body: |
+            Prebuilt Xerces XML Schema validator CLI.
+
+            Usage:
+            java -jar xerces-cli.jar schema.xsd xml_or_directory
+          files: release/xerces-cli.jar
+
+
