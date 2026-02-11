@@ -93,7 +93,7 @@ jobs:
       run: ant jar-cli
     
     - name: Upload artifact
-      if: matrix.jdk == 17
+      if: ${{ matrix.jdk == 17 }}
       uses: actions/upload-artifact@v4
       with:
         name: xerces-cli
