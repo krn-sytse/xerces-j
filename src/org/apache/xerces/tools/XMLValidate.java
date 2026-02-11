@@ -12,6 +12,7 @@ import org.xml.sax.SAXParseException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,8 @@ public final class XMLValidate {
     }
 
     private static List<Path> collectXmlFiles(Path input) throws IOException {
-        List<Path> files = new ArrayList<>();
+
+        final List<Path> files = new ArrayList<Path>();
 
         if (Files.isRegularFile(input)) {
             if (input.toString().toLowerCase().endsWith(".xml")) {
@@ -74,11 +76,22 @@ public final class XMLValidate {
             return files;
         }
 
-        // recursive directory walk
-        Files.walk(input)
-                .filter(Files::isRegularFile)
-                .filter(p -> p.toString().toLowerCase().endsWith(".xml"))
-                .forEach(files::add);
+        Files.walkFileTree(input, new SimpleFileVisitor<Path>() {
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                if (file.toString().toLowerCase().endsWith(".xml")) {
+                    files.add(file);
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                // ignore unreadable files but continue
+                return FileVisitResult.CONTINUE;
+            }
+        });
 
         return files;
     }
