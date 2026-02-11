@@ -29,9 +29,9 @@ public final class XMLValidate {
 
         try {
             validator.validate(new StreamSource(xmlFile));
-            System.out.println("✅ Validation successful: " + xmlFile.getName());
+            System.out.println("XSD validation successful: " + xmlFile.getName());
         } catch (Exception e) {
-            System.err.println("❌ Validation failed: " + e.getMessage());
+            System.err.println("XSD validation failed: " + e.getMessage());
             System.exit(2);
         }
     }
